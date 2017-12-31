@@ -5,19 +5,61 @@
  */
 package Infrastructure;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author jaish
- */
+
+*/
 public class Login extends javax.swing.JFrame {
+private static Scanner x;
 
     /**
      * Creates new form Login
      */
-    public Login() {
+   public Login() {
         initComponents();
     }
-
+    public static void logIn(String username, String password, String filepath) throws FileNotFoundException{
+       // System.out.println("Hello");
+        boolean found = false;
+        String tempUsername ="";
+        String tempPassword = "";
+        //System.out.println("tempUsername,tempPassword");
+        try{
+        x = new Scanner(new File(filepath));
+        x.useDelimiter("[,\n]");
+         System.out.println("File read");
+        while(x.hasNext() && !found)
+        {
+           tempUsername= x.next();
+           tempPassword= x.next();
+            if(tempUsername.trim().equals(username.trim())&& tempPassword.trim().equals(password.trim()))
+            {
+            found = true;
+            display();       
+            }
+            x.close();
+           System.out.println(found);
+           
+           
+          
+           
+        }
+        }
+        catch(FileNotFoundException e){
+            System.out.println("ERROR!!!");     
+                }
+    }
+    public static void display(){
+         CameraConsole obj = new CameraConsole();
+           obj.setVisible(true);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,9 +82,12 @@ public class Login extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Infrastructure/cam-spy-home.jpg"))); // NOI18N
 
-        jTextField1.setText("User name");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
-        jPasswordField1.setText("Password");
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPasswordField1ActionPerformed(evt);
@@ -67,6 +112,11 @@ public class Login extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(51, 102, 0));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Cancel");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,47 +171,57 @@ public class Login extends javax.swing.JFrame {
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jPasswordField1ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        CameraConsole obj = new CameraConsole();
-        obj.setVisible(true);
+     try {
+         // TODO add your handling code here:
+         String username = jTextField1.getText();
+         System.out.println(username);
+         String password = jPasswordField1.getText();
+         System.out.println(password);
+         String filepath = "C:\\Users\\jaish\\OneDrive\\Documents\\NetBeansProjects\\"
+                 + "connectedProject\\safeCommunication_refactored.zip (Unzipped Files)\\safeCommunication\\src\\Infrastructure\\Userdetails.txt";
+         logIn(username, password, filepath);
+        
+         
+     } catch (FileNotFoundException ex) {
+         
+         Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+     }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+            
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    
+// TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
     /**
+     * 
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws FileNotFoundException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+          java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Login().setVisible(true);
             }
         });
+        
+ 
+        /* Create and display the form */
+       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -173,4 +233,12 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    private void close() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+   
+
+    
 }
